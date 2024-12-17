@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: spring-service
+
+spec:
+  type: NodePort
+  selector:
+    app: backend-app # Deployment 에 정의된 "backend-app" 레이블을 가진 파드들을 연결
+  ports:
+    - protocol: TCP
+      port: 8080 # 서비스에 접근할 포트
+      targetPort: 8080 # 파드에 접근할 포트
+      nodePort: 30000 # 외부에서 클라이언트가 접근하게 될 포트 (client -> nodePort -> port -> targetPort)
+
+# 서비스 type 3가지
+# 1. NodePort : k8s 내부에서 해당 서비스에 접속하기 위한 포트를 열고 외부에서 접속 가능하도록 함
+# 2. ClusterIP : 클러스터 내부에서만 해당 서비스에 접속 가능하도록 함 / 외부 요청 불가능 (내부 통신용)
+# 3. LoadBalancer : 클라우드 환경(AWS의 ELB)에서 사용 / 외부에서 해당 서비스에 접속 가능하도록 함
