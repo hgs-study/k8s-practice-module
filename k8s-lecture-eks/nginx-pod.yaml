@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: nginx-container
-      image: nginx
+      image: nginx:1.26.2
       ports:
         - containerPort: 80 # 8080이라고 작성해도 컨테이너 내부에서 실제 8080으로 띄어지지 않음, 그냥 가독성용
 
@@ -34,3 +34,27 @@ spec:
 
 ## pod 삭제
 # kubectl delete pod nginx-pod
+
+
+## pod 디버깅
+# kubectl describe pods nginx-pod
+# -> Events: // 진행한 이벤트 확인할 수 있음
+# -> Type     Reason     Age                From               Message
+# -> ----     ------     ----               ----               -------
+# -> Normal   Scheduled  75s                default-scheduler  Successfully assigned default/nginx-pod to lima-rancher-desktop
+# -> Normal   BackOff    26s (x2 over 63s)  kubelet            Back-off pulling image "nginx:1.26.4"
+# -> Warning  Failed     26s (x2 over 63s)  kubelet            Error: ImagePullBackOff
+# -> Normal   Pulling    15s (x3 over 76s)  kubelet            Pulling image "nginx:1.26.4" // image pull 하는 중
+# -> Warning  Failed     3s (x3 over 63s)   kubelet            Failed to pull image "nginx:1.26.4": Error response from daemon: manifest for nginx:1.26.4 not found: manifest unknown: manifest unknown // 에러 확인
+
+
+## pod 로그 확인 (nginx log)
+# kubectl logs nginx-pod
+# 2024/12/17 10:05:15 [notice] 1#1: using the "epoll" event method
+# 2024/12/17 10:05:15 [notice] 1#1: nginx/1.26.2
+# 2024/12/17 10:05:15 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14)
+# 2024/12/17 10:05:15 [notice] 1#1: OS: Linux 6.6.51-0-virt
+# 2024/12/17 10:05:15 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+# 2024/12/17 10:05:15 [notice] 1#1: start worker processes
+# 2024/12/17 10:05:15 [notice] 1#1: start worker process 29
+# 2024/12/17 10:05:15 [notice] 1#1: start worker process 30
