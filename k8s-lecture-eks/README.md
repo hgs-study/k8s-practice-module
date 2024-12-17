@@ -16,4 +16,4 @@ spec:
       targetPort: 8080
       nodePort: 30000
 ```
-![img.png](../img.png)
+![img.png](resources/images/service.png)
