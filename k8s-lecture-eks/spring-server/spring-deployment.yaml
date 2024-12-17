@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: spring-deployment
+
+# Deployment 세부 정보
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-app #  backend-app 레이블을 가진 파드들을 배포한다
+
+  # 배포할 파드 내용 정의
+  template:
+    metadata:
+      labels: # 배포할 파드 카테고리
+        app: backend-app
+    spec:
+      containers:
+        - name: spring-container
+          image: spring-server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+
+
+# kubectl apply -f spring-deployment.yaml
+
+# kubectl get deployment
+# -> NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+# -> spring-deployment   3/3     3            3           65s
+
+# kubectl get replicaset
+# -> NAME                          DESIRED   CURRENT   READY   AGE
+# -> spring-deployment-7565bdff49   3         3         3       2m3s
+
+# kubectl get pods
+# spring-deployment-7565bdff49-2hdgz   1/1     Running   0          5s
+# spring-deployment-7565bdff49-lhk2w   1/1     Running   0          5s
+# spring-deployment-7565bdff49-qgx2f   1/1     Running   0          5s
