@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: spring-pod
+
+spec:
+  containers:
+    - name: spring-container
+      image: spring-server
+      ports:
+        - containerPort: 8080
+      imagePullPolicy: IfNotPresent
+
+# 이미지 풀 정책 에러 발생
+# kubectl get pods
+# ->spring-pod   0/1     ErrImagePull   0          13s
+
+# 이미지 풀 정책
+# -> 쿠버네티스가 매니페스트 파일 읽으면서 이미지를 어떻게 pull할지 정하는 정책
+# -> Always: 레지스트리(=Dockerhub, ECR)에서만 가져옴
+# -> IfNotPresent: 로컬에 이미지가 있으면 로컬에서 가져오고, 없으면 레지스트리에서 가져옴
+# -> Never: 로컬에서만 가져옴
+
+# Default 정책
+# -> 이미지 태그를 적지 않거나 latest인 경우, Always
+# -> 이미지 태그를 적은 경우, IfNotPresent
