@@ -25,9 +25,15 @@ spec:
             - containerPort: 8080
           env:
             - name: MY_ACCOUNT
-              value: pir
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: my-account
             - name: MY_PASSWORD
-              value: test_password
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: my-password
 
 
 # kubectl apply -f spring-deployment.yaml
@@ -44,3 +50,10 @@ spec:
 # spring-deployment-7565bdff49-2hdgz   1/1     Running   0          5s
 # spring-deployment-7565bdff49-lhk2w   1/1     Running   0          5s
 # spring-deployment-7565bdff49-qgx2f   1/1     Running   0          5s
+
+#  kubectl get configmap
+# -> NAME           DATA   AGE
+# -> spring-config   2      3m
+
+# kubectl rollout restart deployment spring-deployment # deployment 재시작
+# deployment.apps/spring-deployment restarted

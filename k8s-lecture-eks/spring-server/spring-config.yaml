@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: spring-config
+
+data:
+  my-account: config-pir
+  my-password: config-test-password
