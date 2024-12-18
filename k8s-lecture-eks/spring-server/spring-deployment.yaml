@@ -19,10 +19,15 @@ spec:
     spec:
       containers:
         - name: spring-container
-          image: spring-server:1.0
+          image: spring-server
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
+          env:
+            - name: MY_ACCOUNT
+              value: pir
+            - name: MY_PASSWORD
+              value: test_password
 
 
 # kubectl apply -f spring-deployment.yaml
