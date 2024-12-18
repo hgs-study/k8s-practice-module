@@ -31,8 +31,8 @@ spec:
                   key: my-account
             - name: MY_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: spring-config
+                secretKeyRef:
+                  name: spring-secret
                   key: my-password
 
 
@@ -57,3 +57,18 @@ spec:
 
 # kubectl rollout restart deployment spring-deployment # deployment 재시작
 # deployment.apps/spring-deployment restarted
+
+# 리소스 사용량
+# kubectl top pod
+# NAME                                CPU(cores)   MEMORY(bytes)
+# nest-deployment-547f5764c8-52zvg    1m           27Mi
+# nest-deployment-547f5764c8-6pts7    1m           27Mi
+# nest-deployment-547f5764c8-gzf4s    1m           26Mi
+# nest-deployment-547f5764c8-kvxkm    1m           26Mi
+# spring-deployment-697f4c7c4-56zch   1m           155Mi
+# spring-deployment-697f4c7c4-tspbc   1m           151Mi
+# spring-deployment-697f4c7c4-x2fp8   1m           151Mi
+
+# kubectl top node
+# NAME                   CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+# lima-rancher-desktop   37m          1%     2918Mi          49%
