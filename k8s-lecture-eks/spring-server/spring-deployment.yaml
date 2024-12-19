@@ -24,16 +24,16 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: MY_ACCOUNT
-              valueFrom:
-                configMapKeyRef:
-                  name: spring-config
-                  key: my-account
-            - name: MY_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: spring-secret
-                  key: my-password
+            - name: DB_HOST
+              value: mysql-service #localhost:30002와 매핑해줌 (nodePort)
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_NAME
+              value: config-my-database
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              value: seceret-root-password
 
 
 # kubectl apply -f spring-deployment.yaml

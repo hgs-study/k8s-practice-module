@@ -25,3 +25,13 @@ spec:
 - Pod 에서 바로 PV(Persistent Volume)을 접근하는 것이 아니라 PVC를 통해 PV를 접근
 
 ![img.png](resources/images/pvc.png)
+
+
+### Spring Boot <-> Mysql
+- env에 my-service를 넣어주면 mysql-service로 매핑 (mysql-service의 nodePort)
+```yaml
+          env:
+            - name: DB_HOST
+              value: mysql-service #localhost:30002와 매핑해줌 (nodePort)
+```
+![connect-spring-mysql.png](resources/images/connect-spring-mysql.png)

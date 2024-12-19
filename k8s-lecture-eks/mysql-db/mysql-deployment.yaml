@@ -37,7 +37,7 @@ spec:
           # 컨테이너 내에서 어떤 경로를 볼륨으로 사용할 지 지정
           volumeMounts:
             - name: mysql-persistent-storage # 밑에서 설정할 volumes.name과 값이 같아야 함
-              mountPath: /var/lib/mysql # mysql 컨테이너 내부에 있는 경로
+              mountPath: /var/lib/mysqls # mysql 컨테이너 내부에 있는 경로
       # 파드가 사용할 볼륨을 지정
       volumes:
         - name: mysql-persistent-storage # 위에서 설정할 volumeMounts.name과 일치해야 함
