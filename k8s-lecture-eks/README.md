@@ -35,3 +35,26 @@ spec:
               value: mysql-service #localhost:30002와 매핑해줌 (nodePort)
 ```
 ![connect-spring-mysql.png](resources/images/connect-spring-mysql.png)
+
+
+### Mysql 외부 Port 막기
+- Service Type을 ClusterIP로 설정하면 외부에서 접근 불가능
+```yaml
+spec:
+  type: ClusterIP
+  selector:
+      app: mysql-db
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+      # nodePort  제거
+
+```
+
+- 외부에서 DB 접근해야할 경우, 포트포워드 사용
+```shell
+$ kubectl port-forward pod/mysql-deployment-7cf6d744-v8nlz 3306:3306
+```
+
+![service-cluster-ip.png](resources/images/service-cluster-ip.png)
