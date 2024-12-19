@@ -5,4 +5,6 @@ metadata:
   name: spring-config
 
 data:
-  my-account: config-pir
+  db-host: mysql-service # mysql-service와 매핑해줌
+  db-port: "3306"
+  db-name: config-my-database
