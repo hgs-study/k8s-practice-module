@@ -65,3 +65,14 @@ $ kubectl port-forward pod/mysql-deployment-7cf6d744-v8nlz 3306:3306
 ```shell
 & kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/ubuntu/.docker/config.json --type=kubernetes.io/dockerconfigjson
 ```
+
+### EKS Architecture
+- 클러스터 = 마스터노드 + 워커노드(N개)
+  - 마스터 노드 : 클러스터 전체를 관리하는 서버 (개발자의 kubectl 등의 명령어 받는 서버)
+  - 워커 노드 : 실제 파드를 띄우는 서버 (마스터의 명령을 받고 서비스르를 띄운다)
+- 서비스(Service)
+  - ELB에서 온 요청을 각각의 워커노드로 보내는 역할
+- 외부 ELB 
+  - 사용자들의 요청을 분배하고 서비스로 보내는 역할
+
+![eks-architecture.png](resources/images/eks-architecture.png)
