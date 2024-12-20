@@ -58,3 +58,10 @@ $ kubectl port-forward pod/mysql-deployment-7cf6d744-v8nlz 3306:3306
 ```
 
 ![service-cluster-ip.png](resources/images/service-cluster-ip.png)
+
+
+### k8s에서 ECR 이미지 pull 권한 Secret 생성
+- k8s가 AWS ECR의 이미지를 pull 받을 수 있는 Secret 생성 
+```shell
+& kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/ubuntu/.docker/config.json --type=kubernetes.io/dockerconfigjson
+```
