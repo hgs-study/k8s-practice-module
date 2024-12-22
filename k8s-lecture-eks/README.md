@@ -1,5 +1,10 @@
+### K8s on Rancher Desktop
+- Rancher Desktop에서 "Enable Kubernetes"로 로컬에서 k8s 설정
+- 로컬에서 Lima VM을 이용해서 k8s 클러스터 생성
+- k8s 클러스터는 k3s로 1개의 경랑 노드를 생성하는 것이다
+
 ### Service
-- 클라이언트 요청을 nodePort(30000) -> 서비스 Port (8080) -> Pod Target Port (8080)로 전달 
+- 클라이언트 요청을 nodePort(30000) -> 서비스 Port (8080) -> Pod Target Port (8080)로 전달
 ```yaml
 apiVersion: v1
 kind: Service
@@ -61,7 +66,7 @@ $ kubectl port-forward pod/mysql-deployment-7cf6d744-v8nlz 3306:3306
 
 
 ### k8s에서 ECR 이미지 pull 권한 Secret 생성
-- k8s가 AWS ECR의 이미지를 pull 받을 수 있는 Secret 생성 
+- k8s가 AWS ECR의 이미지를 pull 받을 수 있는 Secret 생성
 ```shell
 & kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/ubuntu/.docker/config.json --type=kubernetes.io/dockerconfigjson
 ```
@@ -72,8 +77,27 @@ $ kubectl port-forward pod/mysql-deployment-7cf6d744-v8nlz 3306:3306
   - 워커 노드 : 실제 파드를 띄우는 서버 (마스터의 명령을 받고 서비스르를 띄운다)
 - 서비스(Service)
   - ELB에서 온 요청을 각각의 워커노드로 보내는 역할
-- 외부 ELB 
+  - type: LoadBalancer 로 설정해야함
+  - port: 80 (앞에 ELB 포트), targetPort: 8080
+- 외부 ELB
   - 사용자들의 요청을 분배하고 서비스로 보내는 역할
 
-![eks-architecture.png](resources/images/eks-architecture.png])
-temp
+![eks-architecture.png](resources/images/eks-architecture.png)
+
+### EKS 생성
+- EKS 클러스터를 생성하면 마스터 노드는 생성되지만, 워커 노드(노드 그룹)는 별도로 생성해야함
+- EKS 로컬에서 접근
+  - EKS 클러스터 생성 후, 로컬에서 접근하려면 kubeconfig 설정 필요
+  - 로컬에서 EKS 클러스터가 추가되고, Current도 RancherDesktop(Local)에서 EKS로 업데이트됨
+```shell
+$ aws eks --region ap-northeast-2 update-kubeconfig --name kube-practice
+$ kubectl config get-contexts
+CURRENT   NAME                                                            CLUSTER                                                         AUTHINFO                                                        NAMESPACE
+*         arn:aws:eks:ap-northeast-2:154920292787:cluster/kube-practice   arn:aws:eks:ap-northeast-2:154920292787:cluster/kube-practice   arn:aws:eks:ap-northeast-2:154920292787:cluster/kube-practice   
+          rancher-desktop                                                 rancher-desktop
+
+# EKS -> RancherDesktop로 컨텍스트 변경          
+$ kubectl config use-context rancher-desktop
+   
+
+```
