@@ -75,4 +75,5 @@ $ kubectl port-forward pod/mysql-deployment-7cf6d744-v8nlz 3306:3306
 - 외부 ELB 
   - 사용자들의 요청을 분배하고 서비스로 보내는 역할
 
-![eks-architecture.png](resources/images/eks-architecture.png)
+![eks-architecture.png](resources/images/eks-architecture.png])
+temp
